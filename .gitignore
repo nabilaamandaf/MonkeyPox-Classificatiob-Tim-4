@@ -1,0 +1,6 @@
+# Abaikan folder Data dan file arsip dataset
+Data/
+archive.zip
+venv/
+.venv/
+__pycache__/
