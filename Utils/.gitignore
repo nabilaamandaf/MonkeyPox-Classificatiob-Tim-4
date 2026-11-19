@@ -1,5 +1,5 @@
 .venv/
-Models/
-Data/
 __pycache__/
-*.csv
+*.pyc
+Data/
+Models/*.h5

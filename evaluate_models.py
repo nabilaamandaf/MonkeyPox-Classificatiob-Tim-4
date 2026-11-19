@@ -68,3 +68,6 @@ def plot_accumulated_test_cm(model_name, model_path):
 
 if __name__ == "__main__":
     plot_accumulated_test_cm("MobileNetV2", "Models/transfer_learning_model_3.h5")
+
+
+
