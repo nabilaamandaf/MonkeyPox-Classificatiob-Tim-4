@@ -21,16 +21,16 @@ Eksperimen ini melakukan klasifikasi citra lesi kulit pada *Monkeypox Skin Lesio
 ### Rata-Rata 5-Fold pada Data Test
 | Model | Accuracy (Mean ± Std) | Precision (Macro) | Recall (Macro) | F1-Score (Macro) | ROC-AUC |
 | :--- | :---: | :---: | :---: | :---: | :---: |
-| Simple CNN | 0,498 ± 0,054 | 0,514 | 0,334 | 0,334 | 0,803 |
-| Modified CNN | 0,431 ± 0,034 | 0,232 | 0,266 | 0,230 | 0,725 |
-| MobileNetV2 | 0,801 ± 0,080 | 0,815 | 0,744 | 0,761 | 0,960 |
+| Simple CNN | 0,450 | 0,427 | 0,353 | 0,342 | 0,779 |
+| Modified CNN | 0.466 | 0.445 | 0.300 |	0.286 |	0.734 |
+| MobileNetV2 | 0,747 | 0,790 | 0,695 | 0,712 | 0,939 |
 
 ### Accuracy Per Fold (Test / Validation)
 | Model | Fold 1 (Test / Val) | Fold 2 (Test / Val) | Fold 3 (Test / Val) | Fold 4 (Test / Val) | Fold 5 (Test / Val) |
 | :--- | :---: | :---: | :---: | :---: | :---: |
-| Simple CNN | 0,432 / 0,396 | 0,500 / 0,549 | 0,500 / 0,471 | 0,580 / 0,533 | 0,476 / 0,545 |
-| Modified CNN | 0,405 / 0,382 | 0,476 / 0,543 | 0,422 / 0,425 | 0,457 / 0,473 | 0,397 / 0,481 |
-| MobileNetV2 | 0,689 / 0,653 | 0,817 / 0,854 | 0,875 / 0,752 | 0,753 / 0,787 | 0,873 / 0,779 |
+| Simple CNN | 0,432 | 0,500 | 0,500 | 0,580 | 0,476 |
+| Modified CNN | 0.463 |	0.390 |	0.266 |	0.247 |	0.671 |
+| MobileNetV2 | 0,711 | 0,737 | 0,653 | 0.6787 | 0,939 |
 
 ---
 
