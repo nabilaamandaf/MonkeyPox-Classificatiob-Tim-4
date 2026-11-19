@@ -1,17 +1,18 @@
 import tensorflow as tf
 from tensorflow.keras import layers, models
+from tensorflow.keras.applications import MobileNetV2
 import os
 
-# 1. Tentukan path folder Train
-base_dir = os.path.dirname(os.path.abspath(__file__))
+# Menggunakan path dataset yang sama
 train_dir = r"C:\Users\Admin\Desktop\bljr\ipsd\tugaskel\Data\archive\Original Images\Original Images\FOLDS\fold1\Train"
 
-# 2. DEFINISIKAN VARIABEL INI DI ATAS (Sebelum dipakai di dataset)
 IMG_HEIGHT = 128
 IMG_WIDTH = 128
 BATCH_SIZE = 32
 
-# 3. Baru panggil fungsi dataset di bawahnya
+print("Memuat dataset untuk Transfer Learning...")
+
+# Memuat Dataset Training & Validation
 train_ds = tf.keras.utils.image_dataset_from_directory(
     train_dir,
     validation_split=0.2,
@@ -31,21 +32,29 @@ val_ds = tf.keras.utils.image_dataset_from_directory(
 )
 
 class_names = train_ds.class_names
-print("Kelas Penyakit yang Terdeteksi:", class_names)
+print("Kelas Penyakit:", class_names)
 
 AUTOTUNE = tf.data.AUTOTUNE
 train_ds = train_ds.cache().prefetch(buffer_size=AUTOTUNE)
 val_ds = val_ds.cache().prefetch(buffer_size=AUTOTUNE)
 
-# 4. Arsitektur Simple CNN (Poin 1)
+#3. ARSITEKTUR TRANSFER LEARNING (Menggunakan MobileNetV2)
+# Memuat base model MobileNetV2 yang sudah terlatih (ImageNet), tanpa bagian top/classifier-nya
+base_model = MobileNetV2(
+    input_shape=(IMG_HEIGHT, IMG_WIDTH, 3),
+    include_top=False,
+    weights='imagenet'
+)
+
+# freeze base model agar bobot aslinya tidak berubah di awal pelatihan
+base_model.trainable = False
+
+# Menyusun model gabungan
 model = models.Sequential([
-    layers.Rescaling(1./255, input_shape=(IMG_HEIGHT, IMG_WIDTH, 3)),
-    layers.Conv2D(16, 3, padding='same', activation='relu'),
-    layers.MaxPooling2D(),
-    layers.Conv2D(32, 3, padding='same', activation='relu'),
-    layers.MaxPooling2D(),
-    layers.Flatten(),
-    layers.Dense(128, activation='relu'),
+    layers.Rescaling(1./127.5, offset=-1, input_shape=(IMG_HEIGHT, IMG_WIDTH, 3)), # Normalisasi khusus MobileNetV2 [-1, 1]
+    base_model,
+    layers.GlobalAveragePooling2D(),
+    layers.Dropout(0.2),
     layers.Dense(len(class_names), activation='softmax')
 ])
 
@@ -57,7 +66,7 @@ model.compile(
 
 model.summary()
 
-# 5. Training Model (5 epochs)
+# Training Model
 epochs = 5
 history = model.fit(
     train_ds,
@@ -65,7 +74,7 @@ history = model.fit(
     epochs=epochs
 )
 
-# 6. Simpan Model
+# Simpan Model Ketiga
 os.makedirs('Models', exist_ok=True)
-model.save('Models/simple_cnn_model_1.h5')
-print("Model 1 berhasil disimpan!")
+model.save('Models/transfer_learning_model_3.h5')
+print("Model 3 (Transfer Learning) berhasil disimpan!")

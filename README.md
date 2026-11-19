@@ -1,0 +1,1 @@
+![Confusion Matrix MobileNetV2](assets/cm_transfer_learning_model_3.png)

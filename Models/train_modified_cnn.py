@@ -37,7 +37,7 @@ AUTOTUNE = tf.data.AUTOTUNE
 train_ds = train_ds.cache().prefetch(buffer_size=AUTOTUNE)
 val_ds = val_ds.cache().prefetch(buffer_size=AUTOTUNE)
 
-# --- ARSITEKTUR MODIFIED CNN (Poin 2: Ditambahkan Layer Konvolusi Lebih Dalam & Dropout) ---
+#ARSITEKTUR MODIFIED CNN 
 model = models.Sequential([
     layers.Rescaling(1./255, input_shape=(IMG_HEIGHT, IMG_WIDTH, 3)),
     
@@ -71,7 +71,7 @@ model.compile(
 model.summary()
 
 # Training Model
-epochs = 5
+epochs = 10
 history = model.fit(
     train_ds,
     validation_data=val_ds,
